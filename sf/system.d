@@ -1,11 +1,11 @@
 module sf.system;
 import std.math : sqrt;
-pragma(lib, "csfml-system-2");
+pragma(lib, "csfml-system");
 
 class Clock {
     private sfClock* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Clock)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -35,7 +35,7 @@ class Clock {
 class Mutex {
     private sfMutex* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Mutex)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -64,7 +64,7 @@ class Thread {
 	
     private sfThread* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Thread)a;
         return cst !is null && cst.ptr == ptr;
         return true;

@@ -1,12 +1,12 @@
 module sf.window;
 public import sf.system : Vector2i, Vector2u;
 
-pragma(lib, "csfml-window-2");
+pragma(lib, "csfml-window");
 
 class Context {
     private sfContext* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Context)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -30,7 +30,7 @@ class Context {
 class Window {
     sfWindow* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Window)a;
         return cst !is null && cst.ptr == ptr;
         return true;

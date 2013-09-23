@@ -1,6 +1,6 @@
 module sf.network;
 import sf.system : Time;
-pragma(lib, "csfml-network-2");
+pragma(lib, "csfml-network");
 
 class FtpListingResponse {
     private sfFtpListingResponse* ptr;

@@ -1,6 +1,6 @@
 module sf.sound;
 import sf.system : Time, sfInputStream, Vector3f;
-pragma(lib, "csfml-audio-2");
+pragma(lib, "csfml-audio");
 
 class Music {
     private sfMusic* ptr;

@@ -1,14 +1,19 @@
 module sf.graphics;
 public import sf.system : Vector2f, Vector3f, sfInputStream;
 public import sf.window;
-pragma(lib, "csfml-graphics-2");
 
+import std.string:toStringz;
 
+pragma(lib, "csfml-graphics");
+
+version=sf_graphics;
+version(sf_graphics)
+	pragma(lib, "csfml_funs");// deps:sfml.csfml_funs.build
 
 class CircleShape {
     private sfCircleShape* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(CircleShape)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -122,7 +127,7 @@ class CircleShape {
 class Texture {
     private sfTexture* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Texture)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -134,8 +139,8 @@ class Texture {
 	this(uint width,uint height) {
 		ptr = sfTexture_create(width,height);
 	}
-	this(const(char) *filename,IntRect *area) {
-		ptr = sfTexture_createFromFile(filename,area);
+	this(string filename,IntRect *area) {
+		ptr = sfTexture_createFromFile(filename.toStringz,area);
 	}
 	this(void *data,int sizeInBytes,IntRect *area) {
 		ptr = sfTexture_createFromMemory(data,sizeInBytes,area);
@@ -194,7 +199,7 @@ class Texture {
 class ConvexShape {
     private sfConvexShape* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(ConvexShape)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -305,7 +310,7 @@ class ConvexShape {
 class Font {
     private sfFont* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Font)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -347,7 +352,7 @@ class Font {
 class Image {
     private sfImage* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Image)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -413,7 +418,7 @@ class Image {
 class RectangleShape {
     private sfRectangleShape* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(RectangleShape)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -524,7 +529,7 @@ class RectangleShape {
 class Shader {
     private sfShader* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Shader)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -578,6 +583,7 @@ class Shader {
 	void bind() {
 		sfShader_bind(ptr);
 	}
+	version(none)
 	void unbind() {
 		sfShader_unbind(ptr);
 	}
@@ -586,11 +592,10 @@ class Shader {
 	}
 }
 
-
 class RenderWindow {
     private sfRenderWindow* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(RenderWindow)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -600,7 +605,10 @@ class RenderWindow {
     }
 
 	this(VideoMode mode,const(char) *title,uint style,ContextSettings *settings) {
-		ptr = sfRenderWindow_create(mode,title,style,settings);
+		version(sf_graphics)
+			ptr = sfRenderWindow_create_aux(mode.width,mode.height,mode.bitsPerPixel,title,style,settings);
+		else
+			ptr = sfRenderWindow_create(mode,title,style,settings);
 	}
 	this(sfWindowHandle handle,ContextSettings *settings) {
 		ptr = sfRenderWindow_createFromHandle(handle,settings);
@@ -683,6 +691,7 @@ class RenderWindow {
 	IntRect viewport(View view) {
 		return sfRenderWindow_getViewport(ptr,view);
 	}
+	version(none)
 	Vector2f convertCoords(Vector2i point,View targetView) {
 		return sfRenderWindow_convertCoords(ptr,point,targetView);
 	}
@@ -728,7 +737,7 @@ class RenderWindow {
 class View {
     private sfView* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(View)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -791,7 +800,7 @@ class View {
 class Sprite {
     private sfSprite* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Sprite)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -878,7 +887,7 @@ class Sprite {
 class Text {
     private sfText* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Text)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -986,7 +995,7 @@ class Text {
 class Shape {
     private sfShape* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Shape)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -1091,7 +1100,7 @@ class Shape {
 class VertexArray {
     private sfVertexArray* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(VertexArray)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -1139,7 +1148,7 @@ class VertexArray {
 class RenderTexture {
     private sfRenderTexture* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(RenderTexture)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -1178,6 +1187,7 @@ class RenderTexture {
 	IntRect viewport(View view) {
 		return sfRenderTexture_getViewport(ptr,view);
 	}
+	version(none)
 	Vector2f convertCoords(Vector2i point,View targetView) {
 		return sfRenderTexture_convertCoords(ptr,point,targetView);
 	}
@@ -1229,7 +1239,7 @@ class RenderTexture {
 class Transformable {
     private sfTransformable* ptr;
     private alias ptr this;
-    bool opEquals(Object a) {
+    override bool opEquals(Object a) {
         auto cst = cast(Transformable)a;
         return cst !is null && cst.ptr == ptr;
         return true;
@@ -1804,3 +1814,6 @@ FloatRect  sfView_getViewport(sfView *view);
 void  sfView_move(sfView *view, Vector2f offset);
 void  sfView_rotate(sfView *view, float angle);
 void  sfView_zoom(sfView *view, float factor);
+
+version(sf_graphics)
+sfRenderWindow* sfRenderWindow_create_aux(uint x,uint y, uint bitsPerPixel, const (char)* title, uint style, const(ContextSettings)* settings);
