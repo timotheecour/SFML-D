@@ -696,25 +696,25 @@ class RenderWindow {
 		return sfRenderWindow_convertCoords(ptr,point,targetView);
 	}
 	void draw(Sprite object,RenderStates *states) {
-		sfRenderWindow_drawSprite(ptr,object,states);
+		sfRenderWindow_drawSprite(ptr,object.ptr,states);
 	}
 	void draw(Text object,RenderStates *states) {
-		sfRenderWindow_drawText(ptr,object,states);
+		sfRenderWindow_drawText(ptr,object.ptr,states);
 	}
 	void draw(Shape object,RenderStates *states) {
-		sfRenderWindow_drawShape(ptr,object,states);
+		sfRenderWindow_drawShape(ptr,object.ptr,states);
 	}
 	void draw(CircleShape object,RenderStates *states) {
-		sfRenderWindow_drawCircleShape(ptr,object,states);
+		sfRenderWindow_drawCircleShape(ptr,object.ptr,states);
 	}
 	void drawe(ConvexShape object,RenderStates *states) {
-		sfRenderWindow_drawConvexShape(ptr,object,states);
+		sfRenderWindow_drawConvexShape(ptr,object.ptr,states);
 	}
 	void draw(RectangleShape object,RenderStates *states) {
-		sfRenderWindow_drawRectangleShape(ptr,object,states);
+		sfRenderWindow_drawRectangleShape(ptr,object.ptr,states);
 	}
 	void draw(VertexArray object,RenderStates *states) {
-		sfRenderWindow_drawVertexArray(ptr,object,states);
+		sfRenderWindow_drawVertexArray(ptr,object.ptr,states);
 	}
 	void draw(Vertex *vertices,uint vertexCount,PrimitiveType type,RenderStates *states) {
 		sfRenderWindow_drawPrimitives(ptr,vertices,vertexCount,type,states);
@@ -799,7 +799,7 @@ class View {
 
 class Sprite {
     private sfSprite* ptr;
-    private alias ptr this;
+    //private alias ptr this;
     override bool opEquals(Object a) {
         auto cst = cast(Sprite)a;
         return cst !is null && cst.ptr == ptr;
@@ -813,7 +813,7 @@ class Sprite {
 		ptr = sfSprite_create();
 	}
 	this(Sprite sprite) {
-		ptr = sfSprite_copy(sprite);
+		ptr = sfSprite_copy(sprite.ptr);
 	}
 	~this() {
 		sfSprite_destroy(ptr);
@@ -1192,7 +1192,7 @@ class RenderTexture {
 		return sfRenderTexture_convertCoords(ptr,point,targetView);
 	}
 	void drawSprite(Sprite object,RenderStates *states) {
-		sfRenderTexture_drawSprite(ptr,object,states);
+		sfRenderTexture_drawSprite(ptr,object.ptr,states);
 	}
 	void drawText(Text object,RenderStates *states) {
 		sfRenderTexture_drawText(ptr,object,states);

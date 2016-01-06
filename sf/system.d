@@ -164,7 +164,7 @@ struct Vector2f
 
 private extern(C):
 
-Time sfTime_Zero;
+//Time sfTime_Zero; //gave CT errror on G
 float  sfTime_asSeconds(Time time);
 int  sfTime_asMilliseconds(Time time);
 long  sfTime_asMicroseconds(Time time);
