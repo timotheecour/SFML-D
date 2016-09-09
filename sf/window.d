@@ -360,7 +360,11 @@ struct ContextSettings
     uint minorVersion;
 }
 alias HWND__ *sfWindowHandle;
-private extern(C):
+
+extern(C):
+struct sfWindow;
+
+private:
 	
 	sfContext * sfContext_create();
 void  sfContext_destroy(sfContext *context);
@@ -409,5 +413,4 @@ void  sfWindow_setJoystickThreshold(sfWindow *window, float threshold);
 sfWindowHandle  sfWindow_getSystemHandle(sfWindow *window);
 
 struct sfContext;
-struct sfWindow;
 struct HWND__;
